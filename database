@@ -45,7 +45,8 @@ order_id int,
 FOREIGN KEY (order_id) REFERENCES orders (id),
 product_id int,
 FOREIGN KEY (product_id) REFERENCES products (id),
-quantity int default 0
+quantity int default 0,
+PRIMARY KEY (order_id, product_id)
 );
 ————————————————————
 use store;
