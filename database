@@ -1,0 +1,90 @@
+CREATE DATABASE store;
+—————————————————————
+use store;
+CREATE TABLE countries(
+code INT PRIMARY KEY,
+name varchar(20),
+countinent_name varchar(20)  NOT NULL,
+UNIQUE (name)
+);
+————————————————————
+use store;
+CREATE TABLE users(
+id INT PRIMARY KEY,
+full_name varchar(20),
+email varchar(20),
+gender char(1) CHECK (gender in ('f','m')),
+date_of_birth varchar(15),
+created_at datetime,
+country_code int,
+FOREIGN KEY (country_code) REFERENCES countries (code),
+UNIQUE (email)
+);
+————————————————————
+use store;
+CREATE TABLE orders(
+id INT PRIMARY KEY,
+status varchar(6) CHECK (status in ('start','finish')),
+created_at datetime,
+user_id int,
+FOREIGN KEY (user_id) REFERENCES users (id)
+);
+————————————————————
+use store;
+CREATE TABLE products(
+id INT PRIMARY KEY,
+name varchar(10) not null,
+price int DEFAULT 0,
+status varchar(10) CHECK (status in ('valid','expired')),
+created_at datetime
+);
+————————————————————
+use store;
+CREATE TABLE order_products(
+order_id int,
+FOREIGN KEY (order_id) REFERENCES orders (id),
+product_id int,
+FOREIGN KEY (product_id) REFERENCES products (id),
+quantity int default 0
+);
+————————————————————
+use store;
+INSERT INTO countries (code, name, countinent_name)
+VALUES (966, 'hbhbhv', 'Asia');
+————————————————————
+use store;
+INSERT INTO users (id, full_name, email, gender, date_of_birth, created_at, country_code)
+VALUES (1, 'Haifa Nasser', 'Haifa@gmail.com', 'f', '5/7/2000', '1000-01-01 00:00:00', 966);
+————————————————————
+use store;
+INSERT INTO orders (id, user_id, status, created_at)
+VALUES (1, 1, 'start', '1000-01-01 00:00:00');
+————————————————————
+use store;
+INSERT INTO products (id, name, price, status, created_at)
+VALUES (1, 'Screen', 500, 'expired', '2022-04-17 14:17:42');
+————————————————————
+use store;
+INSERT INTO order_products (order_id, product_id, quantity)
+VALUES (1, 1, 5);
+————————————————————
+use store;
+UPDATE countries
+SET name = 'Saudi Arabia'
+WHERE code = 966;
+————————————————————
+use store;
+DELETE FROM products 
+WHERE id = 2;
+————————————————————
+use store;
+ALTER TABLE users
+MODIFY COLUMN created_at DateTime default current_timestamp
+————————————————————
+use store;
+ALTER TABLE orders
+MODIFY COLUMN created_at DateTime default current_timestamp
+————————————————————
+use store;
+ALTER TABLE products
+MODIFY COLUMN created_at DateTime default current_timestamp
